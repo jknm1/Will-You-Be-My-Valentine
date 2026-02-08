@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine, Vyonne?</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to bottom, #ff9ec1, #ff1493);
+            font-family: 'Arial', sans-serif;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .container {
+            z-index: 10;
+            max-width: 800px;
+            padding: 20px;
+            position: relative;
+        }
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 8px rgba(0,0,0,0.5);
+        }
+        p {
+            font-size: 1.6em;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        button {
+            padding: 18px 45px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+        #yesBtn {
+            background: #ff3366;
+            color: white;
+        }
+        #yesBtn:hover {
+            transform: scale(1.15);
+            background: #e02e5c;
+        }
+        #noBtn {
+            background: #555;
+            color: white;
+        }
+        #response {
+            display: none;
+            font-size: 2.8em;
+            margin-top: 50px;
+            animation: fadeIn 2s ease-in-out;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.6);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Falling petals (flowers) */
+        .petal {
+            position: absolute;
+            width: 20px;
+            height: 10px;
+            background: linear-gradient(to bottom, #ff69b4, #ff1493);
+            border-radius: 50% 0 50% 50%;
+            opacity: 0.8;
+            transform: rotate(45deg);
+            animation: fall linear infinite;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .petal:nth-child(odd) {
+            background: linear-gradient(to bottom, #ff99cc, #ff3366);
+            width: 18px;
+            height: 12px;
+        }
+        .petal:nth-child(3n) {
+            background: #fff0f5;
+            opacity: 0.6;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100vh) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(720deg); }
+        }
+
+        /* Extra petals on Yes */
+        .extra-petal {
+            animation-duration: 3s !important;
+            opacity: 1 !important;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #ffd700;
+            animation: confetti-fall 4s linear infinite;
+            border-radius: 20%;
+            z-index: 5;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); }
+            100% { transform: translateY(120vh) rotate(1080deg); }
+        }
+
+        /* Photo styles */
+        img.hero {
+            max-width: 90%;
+            border-radius: 25px;
+            margin: 20px auto 40px;
+            display: block;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            border: 5px solid rgba(255,255,255,0.8);
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            margin: 40px 0;
+        }
+        .gallery img {
+            max-width: 280px;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            transition: transform 0.3s;
+        }
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Happy Valentine's Day, Vyonne! 🌹💖</h1>
+
+        <!-- Hero photo (main big one) -->
+        <img src="https://i.ibb.co/VW7QVDZm/IMG-1848.jpg" 
+             alt="My beautiful Vyonne" 
+             class="hero">
+
+        <p>Every time I see you smile, it's like petals falling gently in my heart. You've filled my days with so much warmth, joy, and love that I can't imagine life without you.</p>
+        <p>Vyonne, you're my favorite person, my safe place, my everything. So... </p>
+        <p style="font-size: 2.2em; font-weight: bold; margin: 50px 0;">Will you be my Valentine? 🌸❤️</p>
+
+        <!-- Gallery of the other two photos -->
+        <div class="gallery">
+            <img src="https://i.ibb.co/m5Wf4Xw7/IMG-2194.jpg" alt="Sweet moment with Vyonne">
+            <img src="https://i.ibb.co/JjD1tXpb/IMG-2195.jpg" alt="Another beautiful memory">
+        </div>
+
+        <div class="buttons">
+            <button id="yesBtn">Yes! I'd love to! 💕</button>
+            <button id="noBtn">No 😔</button>
+        </div>
+
+        <div id="response"></div>
+    </div>
+
+    <script>
+        // Create falling petals continuously
+        function createPetal(isExtra = false) {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            if (isExtra) petal.classList.add('extra-petal');
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDuration = (Math.random() * 8 + 8) + 's'; // 8-16s gentle fall
+            petal.style.animationDelay = Math.random() * 5 + 's';
+            petal.style.opacity = Math.random() * 0.5 + 0.5;
+            document.body.appendChild(petal);
+            setTimeout(() => petal.remove(), 20000);
+        }
+
+        // Normal petals all the time
+        setInterval(() => createPetal(), 600);
+
+        // Button interactions
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const response = document.getElementById('response');
+
+        noBtn.addEventListener('mouseover', () => {
+            const x = Math.random() * 400 - 200;
+            const y = Math.random() * 400 - 200;
+            noBtn.style.transform = `translate(${x}px, ${y}px) scale(0.8)`;
+        });
+
+        yesBtn.addEventListener('click', () => {
+            response.style.display = 'block';
+            response.innerHTML = 'YES!!! I love you endlessly, Vyonne! 🌹💞<br>Thank you for being mine — let's make forever feel like this moment.';
+
+            document.querySelector('.buttons').style.display = 'none';
+
+            // Burst of confetti
+            for (let i = 0; i < 200; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.background = ['#ff3366', '#ffd700', '#ff69b4', '#ffffff', '#00bfff'][Math.floor(Math.random() * 5)];
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                confetti.style.width = confetti.style.height = (Math.random() * 12 + 8) + 'px';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 6000);
+            }
+
+            // Extra intense flower petal shower on Yes
+            for (let i = 0; i < 80; i++) {
+                setTimeout(() => createPetal(true), i * 50);
+            }
+        });
+    </script>
+</body>
+</html>
