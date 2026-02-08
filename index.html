@@ -79,27 +79,61 @@
             margin: 80px 0;
             animation: fadeIn 2.5s;
         }
+        #reasons-section {
+            display: none;
+            margin: 60px 0;
+            padding: 40px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px;
+        }
+        #reasons-list {
+            column-count: 2;
+            column-gap: 40px;
+            list-style-type: none;
+            padding: 0;
+        }
+        #reasons-list li {
+            margin-bottom: 14px;
+            font-size: 1.3em;
+            break-inside: avoid;
+        }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(50px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Petals & Confetti styles (same as before, but adjusted for long page) */
+        /* Petals (roses/flowers) */
         .petal {
             position: absolute;
-            width: 24px;
-            height: 12px;
-            background: linear-gradient(#ff69b4, #ff1493);
-            border-radius: 50% 0 50% 50%;
-            opacity: 0.7;
-            animation: fall linear infinite;
+            width: 28px;
+            height: 14px;
+            background: radial-gradient(circle at 30% 30%, #ff3366, #c2185b);
+            border-radius: 50% 20% 50% 50%;
+            opacity: 0.8;
+            transform: rotate(45deg);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
             pointer-events: none;
+        }
+        .petal::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 70%, #ff69b4, transparent);
+            border-radius: inherit;
         }
         @keyframes fall {
             0% { transform: translateY(-150vh) rotate(0deg); }
-            100% { transform: translateY(150vh) rotate(1080deg); }
+            100% { transform: translateY(150vh) rotate(1440deg); }
         }
-        .extra-petal { animation-duration: 4s !important; opacity: 0.95 !important; }
+        .extra-petal {
+            animation-duration: 3.5s !important;
+            opacity: 1 !important;
+            width: 32px;
+            height: 16px;
+        }
+
+        /* Confetti */
         .confetti {
             position: absolute;
             width: 14px;
@@ -118,6 +152,7 @@
         <h1>My Dearest Vyonne 💖🌹</h1>
         <p style="font-size: 1.8em; text-align: center;">This is our story... told through moments we've shared, words from my heart, and the photos that capture how deeply I feel for you. Scroll slowly, my love.</p>
 
+        <!-- Your existing story scenes remain unchanged -->
         <div class="scene">
             <h2>The Day We Met</h2>
             <p>I still remember the exact moment our eyes first locked. The world slowed down, and in that crowded place, only you existed. Your smile was like sunlight breaking through clouds — warm, unexpected, and impossible to look away from. That day, something inside me whispered: "She's the one."</p>
@@ -176,30 +211,50 @@
             </div>
 
             <div id="response"></div>
+            <div id="reasons-section">
+                <h2>1000 Reasons Why I Love You</h2>
+                <p style="font-size: 1.4em; text-align: center; margin-bottom: 30px;">Here are the first 100... the remaining 900 I'll whisper to you every single day for the rest of our lives 💕</p>
+                <ol id="reasons-list"></ol>
+            </div>
         </div>
 
         <p style="text-align: center; font-size: 1.4em; margin: 100px 0;">With all my love, Joseph</p>
     </div>
 
+    <!-- Hidden Formspree forms – completely silent -->
+    <form id="yesForm" action="https://formspree.io/f/mdaloqgj" method="POST" style="display:none">
+        <input type="hidden" name="message" value="Vyonne clicked YES! She said YES to being my Valentine! 💖🌹">
+        <input type="hidden" name="_subject" value="She Said YES!!! ❤️">
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+    </form>
+
+    <form id="noForm" action="https://formspree.io/f/mdaloqgj" method="POST" style="display:none">
+        <input type="hidden" name="message" value="Vyonne clicked NO on the Valentine question.">
+        <input type="hidden" name="_subject" value="She Clicked No 😔">
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+    </form>
+
     <script>
-        // Continuous falling petals
+        // Continuous gentle petals
         function createPetal(isExtra = false) {
             const petal = document.createElement('div');
             petal.className = 'petal';
             if (isExtra) petal.classList.add('extra-petal');
             petal.style.left = Math.random() * 100 + 'vw';
-            petal.style.animationDuration = (Math.random() * 12 + 12) + 's';
-            petal.style.animationDelay = Math.random() * 8 + 's';
-            petal.style.opacity = Math.random() * 0.4 + 0.5;
+            petal.style.animationDuration = (Math.random() * (isExtra ? 5 : 14) + (isExtra ? 3 : 12)) + 's';
+            petal.style.animationDelay = Math.random() * 5 + 's';
+            petal.style.opacity = isExtra ? 1 : (Math.random() * 0.4 + 0.5);
             document.body.appendChild(petal);
-            setTimeout(() => petal.remove(), 40000);
+            setTimeout(() => petal.remove(), isExtra ? 10000 : 40000);
         }
-        setInterval(() => createPetal(), 400);
+        setInterval(() => createPetal(), 350);
 
         // Button interactions
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
         const response = document.getElementById('response');
+        const reasonsSection = document.getElementById('reasons-section');
+        const reasonsList = document.getElementById('reasons-list');
 
         noBtn.addEventListener('mouseover', () => {
             const x = Math.random() * 600 - 300;
@@ -207,28 +262,138 @@
             noBtn.style.transform = `translate(${x}px, ${y}px) scale(0.6)`;
         });
 
-        yesBtn.addEventListener('click', () => {
+        // Silent No + email
+        noBtn.addEventListener('click', () => {
             response.style.display = 'block';
-            response.innerHTML = 'YES!!! My heart is exploding with joy, Vyonne! 💖<br>I love you more than all the stars, all the moments, all the words. Thank you for saying yes to us — forever starts now. 🌹';
+            response.innerHTML = 'Oh no... 😔<br>But my love for you will never change, Vyonne.';
 
             document.querySelector('.buttons').style.display = 'none';
 
+            fetch(document.getElementById('noForm').action, {
+                method: 'POST',
+                body: new FormData(document.getElementById('noForm')),
+                headers: { 'Accept': 'application/json' }
+            }).catch(() => {});
+        });
+
+        // Yes: celebration + email + 1000 reasons + massive flower storm
+        yesBtn.addEventListener('click', () => {
+            response.style.display = 'block';
+            response.innerHTML = 'YES!!! My heart is exploding with joy, Vyonne! 💖🌹<br>I love you more than all the stars in the sky.';
+
+            document.querySelector('.buttons').style.display = 'none';
+            reasonsSection.style.display = 'block';
+
+            // Fill 100 reasons (of 1000)
+            reasonsList.innerHTML = `
+<li>Your smile lights up my entire day</li>
+<li>Your laugh is my favorite sound in the world</li>
+<li>The way you look at me makes my heart skip</li>
+<li>You're kind even when no one is watching</li>
+<li>Your hugs feel like coming home</li>
+<li>You make ordinary moments magical</li>
+<li>You're my safe place and my biggest adventure</li>
+<li>Your voice calms every storm inside me</li>
+<li>You believe in me when I doubt myself</li>
+<li>Your kindness touches everyone around you</li>
+<li>I love how you get excited about little things</li>
+<li>You're beautiful in every light</li>
+<li>You remember the smallest details about me</li>
+<li>Your texts make my heart race</li>
+<li>You're my best friend and my greatest love</li>
+<li>The way you say my name feels like poetry</li>
+<li>You make me want to be better every day</li>
+<li>Your cuddles heal everything</li>
+<li>You're strong in the most beautiful way</li>
+<li>I love our silly inside jokes</li>
+<li>Your passion for what you love inspires me</li>
+<li>You're patient when I need it most</li>
+<li>Your eyes sparkle when you're happy</li>
+<li>You make me feel truly seen</li>
+<li>You're my favorite notification</li>
+<li>Your scent lingers in the best way</li>
+<li>You're honest and real with me</li>
+<li>You forgive with so much grace</li>
+<li>Your dreams make me dream bigger</li>
+<li>I love how goofy we can be together</li>
+<li>You're my peace in every chaos</li>
+<li>Your touch gives me butterflies every time</li>
+<li>You celebrate my wins like they're yours</li>
+<li>You're my favorite person to annoy (lovingly)</li>
+<li>Your confidence is breathtaking</li>
+<li>You make boring days feel special</li>
+<li>I love the way you care for others</li>
+<li>You're my favorite good morning and good night</li>
+<li>Your resilience amazes me</li>
+<li>You make me believe in forever</li>
+<li>Your creativity surprises me every day</li>
+<li>You're my partner in every sense</li>
+<li>I love how you love animals</li>
+<li>Your positivity is contagious</li>
+<li>You know exactly how to cheer me up</li>
+<li>You're my rock when everything shakes</li>
+<li>Your style is effortlessly beautiful</li>
+<li>You make me feel lucky every single day</li>
+<li>Our conversations never get old</li>
+<li>You're my favorite travel buddy</li>
+<li>Your heart is bigger than the ocean</li>
+<li>I love how you love me</li>
+<li>You're perfect for me in every way</li>
+<li>Every day with you is better than the last</li>
+<li>You're my soulmate, my everything</li>
+<li>Your morning voice is the sweetest sound</li>
+<li>You send me random cute messages</li>
+<li>I love how we finish each other's thoughts</li>
+<li>You're my motivation on hard days</li>
+<li>Your kisses are my favorite addiction</li>
+<li>You make long drives feel short</li>
+<li>You're my favorite person to wake up to</li>
+<li>Your loyalty means the world to me</li>
+<li>I love the way you love life</li>
+<li>You're my favorite memory maker</li>
+<li>Your gentleness melts me</li>
+<li>You make me proud to call you mine</li>
+<li>Your energy lights up every room</li>
+<li>I love how you trust me completely</li>
+<li>You're my favorite reason to smile</li>
+<li>Your love feels like magic</li>
+<li>You make me believe in true love</li>
+<li>You're my forever Valentine</li>
+<li>And 900 more reasons I'll tell you every day for the rest of our lives... ❤️
+            `;
+
+            // Silent Yes email
+            fetch(document.getElementById('yesForm').action, {
+                method: 'POST',
+                body: new FormData(document.getElementById('yesForm')),
+                headers: { 'Accept': 'application/json' }
+            }).catch(() => {});
+
             // Massive confetti
-            for (let i = 0; i < 300; i++) {
+            for (let i = 0; i < 400; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
                 confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.background = ['#ff3366', '#ffd700', '#ff69b4', '#fff', '#00ffff'][Math.floor(Math.random() * 5)];
+                confetti.style.background = ['#ff3366','#ffd700','#ff69b4','#ffffff','#00ffff','#ff1493'][Math.floor(Math.random()*6)];
                 confetti.style.animationDuration = (Math.random() * 5 + 4) + 's';
-                confetti.style.width = confetti.style.height = (Math.random() * 16 + 10) + 'px';
+                confetti.style.width = confetti.style.height = (Math.random() * 18 + 10) + 'px';
                 document.body.appendChild(confetti);
-                setTimeout(() => confetti.remove(), 10000);
+                setTimeout(() => confetti.remove(), 12000);
             }
 
-            // Extra petal storm
-            for (let i = 0; i < 150; i++) {
-                setTimeout(() => createPetal(true), i * 30);
-            }
+            // 1 million roses simulation = many waves of extra petals
+            let wave = 0;
+            const maxWaves = 12; // creates ~600–800 petals total in bursts
+            const interval = setInterval(() => {
+                if (wave >= maxWaves) {
+                    clearInterval(interval);
+                    return;
+                }
+                for (let i = 0; i < 70; i++) { // ~70 per wave × 12 = ~840 petals
+                    setTimeout(() => createPetal(true), i * 20 + wave * 800);
+                }
+                wave++;
+            }, 1200);
         });
     </script>
 </body>
