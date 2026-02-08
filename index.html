@@ -79,24 +79,12 @@
             margin: 80px 0;
             animation: fadeIn 2.5s;
         }
-        #shareBtn {
-            display: none;
-            margin: 40px auto;
-            padding: 15px 40px;
-            font-size: 1.4em;
-            background: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-        }
-        #shareBtn:hover { transform: scale(1.1); }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(50px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Petals & Confetti styles (same as before, but adjusted for long page) */
         .petal {
             position: absolute;
             width: 24px;
@@ -130,7 +118,53 @@
         <h1>My Dearest Vyonne 💖🌹</h1>
         <p style="font-size: 1.8em; text-align: center;">This is our story... told through moments we've shared, words from my heart, and the photos that capture how deeply I feel for you. Scroll slowly, my love.</p>
 
-        <!-- Your story scenes here – keeping them as-is for brevity; paste all 8 scenes from previous code if needed -->
+        <div class="scene">
+            <h2>The Day We Met</h2>
+            <p>I still remember the exact moment our eyes first locked. The world slowed down, and in that crowded place, only you existed. Your smile was like sunlight breaking through clouds — warm, unexpected, and impossible to look away from. That day, something inside me whispered: "She's the one."</p>
+            <img src="https://i.ibb.co/0yQRZpRr/IMG-9388.jpg" alt="The moment we met">
+        </div>
+
+        <div class="scene">
+            <h2>Our First Laugh Together</h2>
+            <p>We were nervous, stumbling over words, but then you laughed at my silly joke — that genuine, melodic laugh that echoes in my dreams. In that instant, all awkwardness melted away. I knew I wanted to spend my life making you laugh like that every single day.</p>
+            <img src="https://i.ibb.co/snkmXLJ/647cc882-3a97-43cc-b70a-8fcecfc0a35d.jpg" alt="Our first shared laugh">
+        </div>
+
+        <div class="scene">
+            <h2>Quiet Walks & Stolen Glances</h2>
+            <p>Walking side by side, no words needed. Just your hand brushing mine, the breeze carrying your scent, and the way you'd glance over with that soft look that says everything. Those simple moments are where I fell deeper every time.</p>
+            <img src="https://i.ibb.co/Sw9j5LxN/IMG-1006.jpg" alt="Our peaceful walks together">
+        </div>
+
+        <div class="scene">
+            <h2>The Night We Stayed Up Talking</h2>
+            <p>Hours passed like minutes as we shared dreams, fears, and secrets under the stars. Your voice, your thoughts, your vulnerability — they wrapped around my heart like a promise. I never wanted that night to end.</p>
+            <img src="https://i.ibb.co/DPCwPB2C/IMG-1010.jpg" alt="Late-night conversations">
+        </div>
+
+        <div class="scene">
+            <h2>When You Looked at Me Like I Was Home</h2>
+            <p>There are moments when you look at me, and I see forever in your eyes. No words, just pure love. In those seconds, I know you're my safe place, my adventure, my everything.</p>
+            <img src="https://i.ibb.co/bjQtbqyJ/F0A9B616-E918-4B3F-B8FE-14260D961045.jpg" alt="The look that says it all">
+        </div>
+
+        <div class="scene">
+            <h2>Dancing in the Kitchen</h2>
+            <p>Music playing softly, dishes forgotten. You in my arms, spinning slowly, laughing when we stepped on each other's toes. Those silly, perfect dances are my favorite memories — pure joy, just us.</p>
+            <img src="https://i.ibb.co/Vc4bthcM/IMG-9147.jpg" alt="Dancing like no one is watching">
+        </div>
+
+        <div class="scene">
+            <h2>Our Adventures Begin</h2>
+            <p>Exploring new places hand in hand, discovering the world together. Every trip, every sunset, every photo we take reminds me how much brighter life is with you in it.</p>
+            <img src="https://i.ibb.co/q36kf8Ly/IMG-9155.jpg" alt="Our shared adventures">
+        </div>
+
+        <div class="scene">
+            <h2>And Then There Was Tonight...</h2>
+            <p>Here we are, on the edge of something beautiful. Every memory led to this moment. My heart has been yours for so long — now I'm asking it out loud.</p>
+            <img src="https://i.ibb.co/KjchFHym/IMG-9156.jpg" alt="The promise of more">
+        </div>
 
         <div class="scene" style="text-align: center; margin-top: 120px;">
             <h2 style="font-size: 3.5em;">Vyonne, my love...</h2>
@@ -142,25 +176,13 @@
             </div>
 
             <div id="response"></div>
-            <button id="shareBtn">Copy Message to Send Joseph!</button>
         </div>
 
         <p style="text-align: center; font-size: 1.4em; margin: 100px 0;">With all my love, Joseph</p>
-
-        <!-- Hidden Formspree form for email notification -->
-        <form id="yesForm" action="https://formspree.io/f/mdaloqgj" method="POST" style="display: none;">
-            <input type="hidden" name="message" value="Vyonne clicked YES to being my Valentine! 💕❤️ She said yes! 🌹">
-            <input type="hidden" name="_subject" value="YES from Vyonne – Valentine Site!">
-            <!-- Optional: Add timestamp or more info -->
-            <input type="hidden" name="timestamp" value="">
-        </form>
-
-        <!-- Optional sound -->
-        <audio id="yesSound" src="https://assets.mixkit.co/sfx/preview/mixkit-soft-romantic-guitar-2359.mp3"></audio>
     </div>
 
     <script>
-        // Petals function (same as before)
+        // Continuous falling petals
         function createPetal(isExtra = false) {
             const petal = document.createElement('div');
             petal.className = 'petal';
@@ -174,12 +196,10 @@
         }
         setInterval(() => createPetal(), 400);
 
+        // Button interactions
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
         const response = document.getElementById('response');
-        const shareBtn = document.getElementById('shareBtn');
-        const yesSound = document.getElementById('yesSound');
-        const yesForm = document.getElementById('yesForm');
 
         noBtn.addEventListener('mouseover', () => {
             const x = Math.random() * 600 - 300;
@@ -188,39 +208,12 @@
         });
 
         yesBtn.addEventListener('click', () => {
-            // Change tab title
-            document.title = "She Said YES!!! ❤️ Vyonne & Joseph";
-
-            // Show response
             response.style.display = 'block';
-            response.innerHTML = 'YES!!! My heart is exploding with joy, Vyonne! 💖<br>I love you more than all the stars. Now text or call me right now and say it out loud — I can\'t wait to hear your voice! 🌹';
+            response.innerHTML = 'YES!!! My heart is exploding with joy, Vyonne! 💖<br>I love you more than all the stars, all the moments, all the words. Thank you for saying yes to us — forever starts now. 🌹';
 
             document.querySelector('.buttons').style.display = 'none';
-            shareBtn.style.display = 'block';
 
-            // Play sound
-            yesSound.volume = 0.3;
-            yesSound.play().catch(() => {});
-
-            // Submit to Formspree for your email
-            const formData = new FormData(yesForm);
-            formData.set('timestamp', new Date().toLocaleString('en-KE', { timeZone: 'Africa/Nairobi' })); // Add current time (EAT)
-
-            fetch(yesForm.action, {
-                method: 'POST',
-                body: formData,
-                headers: { 'Accept': 'application/json' }
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log("Email notification sent to Joseph!");
-                } else {
-                    console.error("Formspree error:", response.status);
-                }
-            })
-            .catch(error => console.error("Fetch error:", error));
-
-            // Confetti + extra petals (keep your existing loops here)
+            // Massive confetti
             for (let i = 0; i < 300; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
@@ -231,18 +224,11 @@
                 document.body.appendChild(confetti);
                 setTimeout(() => confetti.remove(), 10000);
             }
+
+            // Extra petal storm
             for (let i = 0; i < 150; i++) {
                 setTimeout(() => createPetal(true), i * 30);
             }
-        });
-
-        shareBtn.addEventListener('click', () => {
-            const message = "Joseph, I said YES to being your Valentine! 💕 Can't wait to celebrate with you. Love you! ❤️";
-            navigator.clipboard.writeText(message).then(() => {
-                alert("Message copied! Paste it to Joseph now 😊💌");
-            }).catch(() => {
-                alert("Copy this manually: " + message);
-            });
         });
     </script>
 </body>
