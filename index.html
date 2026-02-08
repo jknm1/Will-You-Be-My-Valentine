@@ -3,246 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will You Be My Valentine, Vyonne?</title>
+    <title>A Love Story for Vyonne – Will You Be My Valentine?</title>
     <style>
         body {
             margin: 0;
             padding: 0;
-            min-height: 100vh; /* Allows scrolling beyond one screen */
             background: linear-gradient(to bottom, #ff9ec1, #ff1493);
             font-family: 'Arial', sans-serif;
             color: white;
-            text-align: center;
+            line-height: 1.6;
             position: relative;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow-x: hidden;
         }
         .container {
             max-width: 900px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 60px 20px;
             position: relative;
             z-index: 10;
         }
-        section {
-            margin: 80px 0;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
         h1, h2 {
-            text-shadow: 3px 3px 8px rgba(0,0,0,0.5);
+            text-align: center;
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.6);
         }
-        h1 { font-size: 3.8em; margin-bottom: 20px; }
-        h2 { font-size: 2.8em; margin-bottom: 20px; }
+        h1 { font-size: 4em; margin-bottom: 30px; }
+        h2 { font-size: 2.8em; margin: 80px 0 30px; }
         p {
             font-size: 1.5em;
-            line-height: 1.6;
-            margin: 20px 0;
+            margin: 25px 0;
+        }
+        .scene {
+            margin: 100px 0;
+            padding: 50px 30px;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 25px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+        .scene img {
+            max-width: 100%;
+            border-radius: 20px;
+            margin: 40px auto;
+            display: block;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.5);
+            border: 5px solid rgba(255,255,255,0.7);
         }
         .buttons {
             display: flex;
             justify-content: center;
-            gap: 50px;
-            margin: 60px 0;
+            gap: 60px;
+            margin: 100px 0;
         }
         button {
-            padding: 20px 50px;
-            font-size: 1.6em;
+            padding: 22px 60px;
+            font-size: 1.8em;
             border: none;
-            border-radius: 50px;
+            border-radius: 60px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
         }
         #yesBtn {
             background: #ff3366;
             color: white;
         }
-        #yesBtn:hover { transform: scale(1.15); background: #e02e5c; }
+        #yesBtn:hover { transform: scale(1.12); background: #d91e55; }
         #noBtn {
-            background: #555;
+            background: #444;
             color: white;
         }
         #response {
             display: none;
-            font-size: 3em;
-            margin: 60px 0;
-            animation: fadeIn 2s;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.6);
+            font-size: 3.2em;
+            text-align: center;
+            margin: 80px 0;
+            animation: fadeIn 2.5s;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(40px) scale(0.9); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Photos */
-        img.hero {
-            max-width: 100%;
-            border-radius: 25px;
-            margin: 30px auto;
-            display: block;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-            border: 6px solid rgba(255,255,255,0.8);
-        }
-        .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-            margin: 50px 0;
-        }
-        .gallery img {
-            max-width: 320px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-            transition: transform 0.3s;
-        }
-        .gallery img:hover { transform: scale(1.08); }
-
-        /* Falling petals */
+        /* Petals & Confetti styles (same as before, but adjusted for long page) */
         .petal {
             position: absolute;
-            width: 22px;
+            width: 24px;
             height: 12px;
-            background: linear-gradient(to bottom, #ff69b4, #ff1493);
+            background: linear-gradient(#ff69b4, #ff1493);
             border-radius: 50% 0 50% 50%;
-            opacity: 0.75;
-            transform: rotate(45deg);
+            opacity: 0.7;
             animation: fall linear infinite;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
             pointer-events: none;
         }
-        .petal:nth-child(odd) { background: linear-gradient(to bottom, #ff99cc, #ff3366); width: 20px; height: 14px; }
-        .petal:nth-child(3n) { background: #fff0f5; opacity: 0.6; }
         @keyframes fall {
-            0% { transform: translateY(-120vh) rotate(0deg); }
-            100% { transform: translateY(120vh) rotate(900deg); }
+            0% { transform: translateY(-150vh) rotate(0deg); }
+            100% { transform: translateY(150vh) rotate(1080deg); }
         }
-        .extra-petal { animation-duration: 3.5s !important; opacity: 1 !important; }
-
-        /* Confetti */
+        .extra-petal { animation-duration: 4s !important; opacity: 0.95 !important; }
         .confetti {
             position: absolute;
             width: 14px;
             height: 14px;
-            background: #ffd700;
-            animation: confetti-fall 5s linear infinite;
-            border-radius: 30%;
-            z-index: 5;
+            animation: confetti-fall 6s linear infinite;
             pointer-events: none;
         }
         @keyframes confetti-fall {
-            0% { transform: translateY(-120vh) rotate(0deg); }
-            100% { transform: translateY(140vh) rotate(1440deg); }
+            0% { transform: translateY(-150vh) rotate(0deg); }
+            100% { transform: translateY(200vh) rotate(1800deg); }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Happy Valentine's Day, Vyonne! 🌹💖</h1>
+        <h1>My Dearest Vyonne 💖🌹</h1>
+        <p style="font-size: 1.8em; text-align: center;">This is our story... told through moments we've shared, words from my heart, and the photos that capture how deeply I feel for you. Scroll slowly, my love.</p>
 
-        <!-- Hero photo -->
-        <img src="https://i.ibb.co/VW7QVDZm/IMG-1848.jpg" alt="My beautiful Vyonne" class="hero">
+        <div class="scene">
+            <h2>The Day We Met</h2>
+            <p>I still remember the exact moment our eyes first locked. The world slowed down, and in that crowded place, only you existed. Your smile was like sunlight breaking through clouds — warm, unexpected, and impossible to look away from. That day, something inside me whispered: "She's the one."</p>
+            <img src="https://i.ibb.co/0yQRZpRr/IMG-9388.jpg" alt="The moment we met">
+        </div>
 
-        <section id="intro">
-            <h2>To the love of my life...</h2>
-            <p>Every time I look at you, my heart skips a beat. Your smile brightens even my toughest days, and your laugh is the soundtrack to my happiest moments.</p>
-            <p>From the day we met, I knew you were special. You've brought so much color, warmth, and joy into my world. I can't thank you enough for being you.</p>
-        </section>
+        <div class="scene">
+            <h2>Our First Laugh Together</h2>
+            <p>We were nervous, stumbling over words, but then you laughed at my silly joke — that genuine, melodic laugh that echoes in my dreams. In that instant, all awkwardness melted away. I knew I wanted to spend my life making you laugh like that every single day.</p>
+            <img src="https://i.ibb.co/snkmXLJ/647cc882-3a97-43cc-b70a-8fcecfc0a35d.jpg" alt="Our first shared laugh">
+        </div>
 
-        <!-- Gallery section -->
-        <section id="memories">
-            <h2>Some of my favorite moments with you</h2>
-            <div class="gallery">
-                <img src="https://i.ibb.co/m5Wf4Xw7/IMG-2194.jpg" alt="Memory 1 with Vyonne">
-                <img src="https://i.ibb.co/JjD1tXpb/IMG-2195.jpg" alt="Memory 2 with Vyonne">
-            </div>
-            <p>Add more photos or captions here if you upload extras — these moments make me fall for you all over again every time I see them. ❤️</p>
-        </section>
+        <div class="scene">
+            <h2>Quiet Walks & Stolen Glances</h2>
+            <p>Walking side by side, no words needed. Just your hand brushing mine, the breeze carrying your scent, and the way you'd glance over with that soft look that says everything. Those simple moments are where I fell deeper every time.</p>
+            <img src="https://i.ibb.co/Sw9j5LxN/IMG-1006.jpg" alt="Our peaceful walks together">
+        </div>
 
-        <!-- More messages section (add as many as you want!) -->
-        <section id="why-i-love-you">
-            <h2>Reasons I love you (and there are endless more...)</h2>
-            <p>1. Your kindness — you care so deeply about everyone around you.</p>
-            <p>2. Your sense of humor — you always know how to make me laugh until my sides hurt.</p>
-            <p>3. The way you support my dreams — you're my biggest cheerleader.</p>
-            <p>4. How beautiful you are, inside and out — I still get butterflies every time I see you.</p>
-            <p>5. The little things: your texts, your hugs, the way you say my name... everything.</p>
-            <p>...and so much more. I could write pages and pages.</p>
-        </section>
+        <div class="scene">
+            <h2>The Night We Stayed Up Talking</h2>
+            <p>Hours passed like minutes as we shared dreams, fears, and secrets under the stars. Your voice, your thoughts, your vulnerability — they wrapped around my heart like a promise. I never wanted that night to end.</p>
+            <img src="https://i.ibb.co/DPCwPB2C/IMG-1010.jpg" alt="Late-night conversations">
+        </div>
 
-        <section id="future">
-            <h2>Our future together</h2>
-            <p>I dream of so many adventures with you — traveling to new places, building a home, creating memories year after year.</p>
-            <p>I want every Valentine's Day, every ordinary Tuesday, every sunrise and sunset... with you by my side.</p>
-        </section>
+        <div class="scene">
+            <h2>When You Looked at Me Like I Was Home</h2>
+            <p>There are moments when you look at me, and I see forever in your eyes. No words, just pure love. In those seconds, I know you're my safe place, my adventure, my everything.</p>
+            <img src="https://i.ibb.co/bjQtbqyJ/F0A9B616-E918-4B3F-B8FE-14260D961045.jpg" alt="The look that says it all">
+        </div>
 
-        <!-- The big question -->
-        <section id="question" style="margin-top: 100px;">
-            <h2 style="font-size: 3.2em;">So, Vyonne...</h2>
-            <p style="font-size: 2.4em; font-weight: bold; margin: 40px 0;">Will you be my Valentine? 🌸❤️</p>
+        <div class="scene">
+            <h2>Dancing in the Kitchen</h2>
+            <p>Music playing softly, dishes forgotten. You in my arms, spinning slowly, laughing when we stepped on each other's toes. Those silly, perfect dances are my favorite memories — pure joy, just us.</p>
+            <img src="https://i.ibb.co/Vc4bthcM/IMG-9147.jpg" alt="Dancing like no one is watching">
+        </div>
+
+        <div class="scene">
+            <h2>Our Adventures Begin</h2>
+            <p>Exploring new places hand in hand, discovering the world together. Every trip, every sunset, every photo we take reminds me how much brighter life is with you in it.</p>
+            <img src="https://i.ibb.co/q36kf8Ly/IMG-9155.jpg" alt="Our shared adventures">
+        </div>
+
+        <div class="scene">
+            <h2>And Then There Was Tonight...</h2>
+            <p>Here we are, on the edge of something beautiful. Every memory led to this moment. My heart has been yours for so long — now I'm asking it out loud.</p>
+            <img src="https://i.ibb.co/KjchFHym/IMG-9156.jpg" alt="The promise of more">
+        </div>
+
+        <div class="scene" style="text-align: center; margin-top: 120px;">
+            <h2 style="font-size: 3.5em;">Vyonne, my love...</h2>
+            <p style="font-size: 2.5em; font-weight: bold; margin: 60px 0;">Will you be my Valentine? 💞🌸</p>
 
             <div class="buttons">
-                <button id="yesBtn">Yes! I'd love to! 💕</button>
+                <button id="yesBtn">Yes, forever! ❤️</button>
                 <button id="noBtn">No 😔</button>
             </div>
 
             <div id="response"></div>
-        </section>
+        </div>
 
-        <!-- Extra space at bottom so last section isn't cut off -->
-        <div style="height: 100px;"></div>
+        <p style="text-align: center; font-size: 1.4em; margin: 100px 0;">With all my love, Joseph</p>
     </div>
 
     <script>
-        // Falling petals (continuous across whole page)
+        // Continuous falling petals
         function createPetal(isExtra = false) {
             const petal = document.createElement('div');
             petal.className = 'petal';
             if (isExtra) petal.classList.add('extra-petal');
             petal.style.left = Math.random() * 100 + 'vw';
-            petal.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            petal.style.animationDelay = Math.random() * 6 + 's';
+            petal.style.animationDuration = (Math.random() * 12 + 12) + 's';
+            petal.style.animationDelay = Math.random() * 8 + 's';
             petal.style.opacity = Math.random() * 0.4 + 0.5;
             document.body.appendChild(petal);
-            setTimeout(() => petal.remove(), 30000);
+            setTimeout(() => petal.remove(), 40000);
         }
-        setInterval(() => createPetal(), 500);
+        setInterval(() => createPetal(), 400);
 
-        // Button logic
+        // Button interactions
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
         const response = document.getElementById('response');
 
         noBtn.addEventListener('mouseover', () => {
-            const x = Math.random() * 500 - 250;
-            const y = Math.random() * 500 - 250;
-            noBtn.style.transform = `translate(${x}px, ${y}px) scale(0.7)`;
+            const x = Math.random() * 600 - 300;
+            const y = Math.random() * 600 - 300;
+            noBtn.style.transform = `translate(${x}px, ${y}px) scale(0.6)`;
         });
 
         yesBtn.addEventListener('click', () => {
             response.style.display = 'block';
-            response.innerHTML = 'YES!!! I love you more than words can say, Vyonne! 🌹💞<br>Thank you for making my heart so full. Let\'s make this and every day magical together.';
+            response.innerHTML = 'YES!!! My heart is exploding with joy, Vyonne! 💖<br>I love you more than all the stars, all the moments, all the words. Thank you for saying yes to us — forever starts now. 🌹';
 
             document.querySelector('.buttons').style.display = 'none';
 
-            // Confetti burst
-            for (let i = 0; i < 250; i++) {
+            // Massive confetti
+            for (let i = 0; i < 300; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
                 confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.background = ['#ff3366', '#ffd700', '#ff69b4', '#ffffff', '#00bfff'][Math.floor(Math.random() * 5)];
-                confetti.style.animationDuration = (Math.random() * 4 + 3) + 's';
-                confetti.style.width = confetti.style.height = (Math.random() * 14 + 10) + 'px';
+                confetti.style.background = ['#ff3366', '#ffd700', '#ff69b4', '#fff', '#00ffff'][Math.floor(Math.random() * 5)];
+                confetti.style.animationDuration = (Math.random() * 5 + 4) + 's';
+                confetti.style.width = confetti.style.height = (Math.random() * 16 + 10) + 'px';
                 document.body.appendChild(confetti);
-                setTimeout(() => confetti.remove(), 8000);
+                setTimeout(() => confetti.remove(), 10000);
             }
 
-            // Extra petals shower
-            for (let i = 0; i < 120; i++) {
-                setTimeout(() => createPetal(true), i * 40);
+            // Extra petal storm
+            for (let i = 0; i < 150; i++) {
+                setTimeout(() => createPetal(true), i * 30);
             }
         });
     </script>
