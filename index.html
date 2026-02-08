@@ -8,12 +8,13 @@
         body {
             margin: 0;
             padding: 0;
-            background: linear-gradient(to bottom, #ff9ec1, #ff1493);
+            background: linear-gradient(135deg, #4a0e0e 0%, #800020 40%, #a52a2a 70%, #c71585 100%);
             font-family: 'Arial', sans-serif;
             color: white;
             line-height: 1.6;
             position: relative;
             overflow-x: hidden;
+            min-height: 100vh;
         }
         .container {
             max-width: 900px;
@@ -24,7 +25,7 @@
         }
         h1, h2 {
             text-align: center;
-            text-shadow: 3px 3px 10px rgba(0,0,0,0.6);
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.7);
         }
         h1 { font-size: 4em; margin-bottom: 30px; }
         h2 { font-size: 2.8em; margin: 80px 0 30px; }
@@ -35,18 +36,19 @@
         .scene {
             margin: 100px 0;
             padding: 50px 30px;
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.08);
             border-radius: 25px;
             backdrop-filter: blur(8px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,105,180,0.2);
         }
         .scene img {
             max-width: 100%;
             border-radius: 20px;
             margin: 40px auto;
             display: block;
-            box-shadow: 0 12px 35px rgba(0,0,0,0.5);
-            border: 5px solid rgba(255,255,255,0.7);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.6);
+            border: 5px solid rgba(255,255,255,0.15);
         }
         .buttons {
             display: flex;
@@ -61,15 +63,15 @@
             border-radius: 60px;
             cursor: pointer;
             transition: all 0.4s ease;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.6);
         }
         #yesBtn {
-            background: #ff3366;
+            background: #c2185b;
             color: white;
         }
-        #yesBtn:hover { transform: scale(1.12); background: #d91e55; }
+        #yesBtn:hover { transform: scale(1.12); background: #ad1457; }
         #noBtn {
-            background: #444;
+            background: #5f0000;
             color: white;
         }
         #response {
@@ -83,7 +85,7 @@
             display: none;
             margin: 60px 0;
             padding: 40px;
-            background: rgba(255,255,255,0.15);
+            background: rgba(139,0,0,0.25);
             border-radius: 20px;
         }
         #reasons-list {
@@ -102,43 +104,44 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Falling roses & teddy bears */
+        /* Falling roses & teddy bears (always on + stronger on Yes) */
         .falling-item {
             position: absolute;
-            top: -80px;
+            top: -100px;
             pointer-events: none;
             user-select: none;
             animation: fall linear forwards;
             z-index: 5;
-            font-size: 36px;
+            font-size: 42px;
+            opacity: 0.9;
         }
         @keyframes fall {
-            0%   { transform: translateY(-80px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(120vh) rotate(720deg); opacity: 0; }
+            0%   { transform: translateY(-100px) rotate(0deg); opacity: 0.9; }
+            100% { transform: translateY(120vh) rotate(1080deg); opacity: 0; }
         }
 
-        /* Petals (base layer) */
+        /* Petals (base romantic layer) */
         .petal {
             position: absolute;
-            width: 24px;
-            height: 12px;
-            background: linear-gradient(#ff69b4, #ff1493);
-            border-radius: 50% 0 50% 50%;
-            opacity: 0.7;
+            width: 26px;
+            height: 13px;
+            background: radial-gradient(circle, #ff3366, #c2185b);
+            border-radius: 50% 20% 50% 50%;
+            opacity: 0.75;
             animation: petal-fall linear infinite;
             pointer-events: none;
         }
         @keyframes petal-fall {
             0% { transform: translateY(-150vh) rotate(0deg); }
-            100% { transform: translateY(150vh) rotate(1080deg); }
+            100% { transform: translateY(150vh) rotate(1440deg); }
         }
-        .extra-petal { animation-duration: 4s !important; opacity: 0.95 !important; }
+        .extra-petal { animation-duration: 3.5s !important; opacity: 1 !important; }
 
         /* Confetti */
         .confetti {
             position: absolute;
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
             animation: confetti-fall 6s linear infinite;
             pointer-events: none;
         }
@@ -153,6 +156,7 @@
         <h1>My Dearest Vyonne 💖🌹</h1>
         <p style="font-size: 1.8em; text-align: center;">This is our story... told through moments we've shared, words from my heart, and the photos that capture how deeply I feel for you. Scroll slowly, my love.</p>
 
+        <!-- Your story scenes (unchanged) -->
         <div class="scene">
             <h2>The Day We Met</h2>
             <p>I still remember the exact moment our eyes first locked. The world slowed down, and in that crowded place, only you existed. Your smile was like sunlight breaking through clouds — warm, unexpected, and impossible to look away from. That day, something inside me whispered: "She's the one."</p>
@@ -235,32 +239,47 @@
     </form>
 
     <script>
-        // Continuous gentle petals
+        // Continuous gentle falling roses & teddy bears from the start
+        function dropLoveItem() {
+            const item = document.createElement('div');
+            item.className = 'falling-item';
+            item.style.left = Math.random() * 100 + 'vw';
+            item.style.animationDuration = (Math.random() * 10 + 12) + 's'; // slow romantic fall
+            item.innerHTML = Math.random() > 0.4 ? '🌹' : '🧸';
+            document.body.appendChild(item);
+            setTimeout(() => item.remove(), 22000);
+        }
+
+        // Start gentle rain immediately
+        setInterval(dropLoveItem, 400);
+
+        // Create faster/bigger items on Yes
+        function intenseDrop() {
+            const item = document.createElement('div');
+            item.className = 'falling-item';
+            item.style.left = Math.random() * 100 + 'vw';
+            item.style.animationDuration = (Math.random() * 5 + 6) + 's'; // faster on Yes
+            item.style.fontSize = (Math.random() * 20 + 40) + 'px'; // bigger
+            item.innerHTML = Math.random() > 0.5 ? '🌹' : '🧸';
+            document.body.appendChild(item);
+            setTimeout(() => item.remove(), 12000);
+        }
+
+        // Continuous gentle petals (base layer)
         function createPetal(isExtra = false) {
             const petal = document.createElement('div');
             petal.className = 'petal';
             if (isExtra) petal.classList.add('extra-petal');
             petal.style.left = Math.random() * 100 + 'vw';
-            petal.style.animationDuration = (Math.random() * (isExtra ? 5 : 14) + (isExtra ? 3 : 12)) + 's';
+            petal.style.animationDuration = (Math.random() * (isExtra ? 4 : 14) + (isExtra ? 3 : 12)) + 's';
             petal.style.animationDelay = Math.random() * 5 + 's';
             petal.style.opacity = isExtra ? 1 : (Math.random() * 0.4 + 0.5);
             document.body.appendChild(petal);
             setTimeout(() => petal.remove(), isExtra ? 10000 : 40000);
         }
-        setInterval(() => createPetal(), 350);
+        setInterval(() => createPetal(), 300);
 
-        // Create one falling rose or teddy bear
-        function dropLoveItem() {
-            const item = document.createElement('div');
-            item.className = 'falling-item';
-            item.style.left = Math.random() * 100 + 'vw';
-            item.style.animationDuration = (Math.random() * 8 + 9) + 's'; // 9–17 seconds fall
-            item.innerHTML = Math.random() > 0.45 ? '🌹' : '🧸';
-            document.body.appendChild(item);
-            setTimeout(() => item.remove(), 20000);
-        }
-
-        // Button logic
+        // Button interactions
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
         const response = document.getElementById('response');
@@ -293,7 +312,7 @@
             document.querySelector('.buttons').style.display = 'none';
             reasonsSection.style.display = 'block';
 
-            // Fill 100 reasons (shortened here — replace with your full list if desired)
+            // Fill reasons (shortened — replace with your full 100 if you want)
             reasonsList.innerHTML = `
 <li>Your smile lights up my entire world</li>
 <li>Your laugh is my favorite sound</li>
@@ -371,40 +390,39 @@
 <li>And 900 more reasons I'll tell you every day forever... ❤️
             `;
 
-            // Silent Yes notification
+            // Silent Yes email
             fetch(document.getElementById('yesForm').action, {
                 method: 'POST',
                 body: new FormData(document.getElementById('yesForm')),
                 headers: { 'Accept': 'application/json' }
             }).catch(() => {});
 
-            // Confetti burst
-            for (let i = 0; i < 400; i++) {
+            // Confetti
+            for (let i = 0; i < 500; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
                 confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.background = ['#ff3366','#ffd700','#ff69b4','#ffffff','#00ffff'][Math.floor(Math.random()*5)];
+                confetti.style.background = ['#ff3366','#ffd700','#ff69b4','#ffffff','#00ffff','#ff1493'][Math.floor(Math.random()*6)];
                 confetti.style.animationDuration = (Math.random() * 5 + 4) + 's';
-                confetti.style.width = confetti.style.height = (Math.random() * 18 + 10) + 'px';
+                confetti.style.width = confetti.style.height = (Math.random() * 20 + 12) + 'px';
                 document.body.appendChild(confetti);
-                setTimeout(() => confetti.remove(), 12000);
+                setTimeout(() => confetti.remove(), 15000);
             }
 
-            // Start raining roses + teddy bears
-            let dropCount = 0;
-            const maxDrops = 1200; // stop after ~1200 items
-            const rainInterval = setInterval(() => {
-                if (dropCount >= maxDrops) {
-                    clearInterval(rainInterval);
+            // Intense rain of roses & teddy bears on Yes
+            let intenseCount = 0;
+            const intenseInterval = setInterval(() => {
+                if (intenseCount >= 800) {
+                    clearInterval(intenseInterval);
                     return;
                 }
                 dropLoveItem();
-                dropCount++;
-            }, 35); // ~28–30 items per second → very noticeable rain
+                intenseCount++;
+            }, 30); // faster rain on Yes
 
-            // Extra petal burst on top
-            for (let i = 0; i < 250; i++) {
-                setTimeout(() => createPetal(true), i * 20);
+            // Extra petals burst
+            for (let i = 0; i < 300; i++) {
+                setTimeout(() => createPetal(true), i * 15);
             }
         });
     </script>
